@@ -20,7 +20,7 @@ def transcrever_audio():
         audio = recognizer.record(source)
         texto = recognizer.recognize_google(audio, language="pt-BR")
         print("Transcrição:", texto)
-
+        return texto
 
 def adicionar_produtos():
     produtos = []
@@ -28,14 +28,18 @@ def adicionar_produtos():
         nome_arquivo = "audio.wav"
         duracao_segundos = 5
         guardar_audio(nome_arquivo, duracao_segundos)
-        produto = transcrever_audio(nome_arquivo)
-        produtos.append(produtos)
-    continuar = int(input("Deseja continuar? S/N"))
-    if continuar =="S":
-                    adicionar_produtos()
+        produto = transcrever_audio()
+        produtos.append(produto)
         
+        continuar = input("Deseja adicionar mais um produto? (S/N): ").strip().lower()
+        if continuar != "s":
+            break
+    
+    print("\nProdutos anotados:")
+    for idx, produto in enumerate(produtos, 1):
+        print(f"{idx}. {produto}")
+
 def principal():
     adicionar_produtos()
 
-    
 principal()
